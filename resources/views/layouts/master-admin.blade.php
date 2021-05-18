@@ -21,3 +21,12 @@
     </div>
 </div>
 @endsection
+@push('script')
+    <script>
+    if($(".pesan").length>0){
+        setTimeout(() => {
+            $(".pesan").remove();
+        }, 2000);
+    }
+    </script>
+@endpush

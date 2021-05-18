@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Barang;
 class JenisBarang extends Model
 {
     use HasFactory;
@@ -13,4 +13,5 @@ class JenisBarang extends Model
     protected $fillable = [
         "nama_jenis"
     ];
+
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\JenisBarang;
 class Barang extends Model
 {
     use HasFactory;
@@ -20,4 +20,8 @@ class Barang extends Model
         'id_jenis'
     ];
     public $incrementing = false;
+
+    public function jenis_barang(){
+        return $this->belongsTo(JenisBarang::class,'id_jenis','id_jenis');
+    }
 }

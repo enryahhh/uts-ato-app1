@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
-
+use App\Models\JenisBarang;
 class BarangController extends Controller
 {
     /**
@@ -14,7 +14,12 @@ class BarangController extends Controller
      */
     public function index()
     {
-        return view('admin.barang.index');
+        $barang = Barang::all();
+        // dd($jenis[1]->jenis_barang->nama_jenis);
+        // foreach($jenis as $data){
+        //     $data
+        // }
+        return view('admin.barang.index',['barang'=>$barang]);
     }
 
     /**
@@ -24,6 +29,7 @@ class BarangController extends Controller
      */
     public function create()
     {
+        $jenis = JenisBarang::all();
         $kode_barang = Barang::pluck('kode_barang')->last();
         if($kode_barang == null){
             $new_kode = "BRG-001";
@@ -37,7 +43,15 @@ class BarangController extends Controller
             }
         }
 
-        return view('admin.barang.form',['kode'=>$new_kode]);
+        return view('admin.barang.form',['kode'=>$new_kode,'jenis'=>$jenis]);
+    }
+
+    public function uploadImage($filenya){
+        $file = $filenya;
+        $nama_file = time()."_".$file->getClientOriginalName();
+      
+		$file->storeAs("public/img",$nama_file);
+        return $nama_file;
     }
 
     /**
@@ -69,8 +83,9 @@ class BarangController extends Controller
             "nama_barang" => $request->nama,
             "harga" =>  $request->harga,
             "satuan"=> $request->satuan,
+            "foto"=>$nama_file,
             "stok"=>$request->stok,
-            "foto"=>$nama_file
+            "id_jenis"=>$request->id_jenis
         ]);
 
         return redirect()->route("barang.create")->with('pesan','Berhasil Menambahkan Data Barang');
@@ -95,7 +110,9 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $barang = Barang::find($id);
+        $jenis = JenisBarang::all();
+        return view('admin.barang.update',['data'=>$barang,'jenis'=>$jenis]);
     }
 
     /**
@@ -107,7 +124,27 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'kode' => 'required',
+            'nama' => 'required',
+            'harga' => 'required',
+            'stok' => 'required',
+            'foto' => 'file|image|mimes:jpeg,png,jpg|max:1024',
+        ]);
+        $barang = Barang::find($id);
+        $nama_file =$barang->foto;
+        if($request->file('foto') != null){
+            $nama_file = $this->uploadImage($request->file('foto'));
+        }
+        $barang->kode_barang = $request->kode;
+        $barang->nama_barang = $request->nama;
+        $barang->harga =  $request->harga;
+        $barang->satuan = $request->satuan;
+        $barang->foto = $nama_file;
+        $barang->stok=$request->stok;
+        $barang->id_jenis = $request->id_jenis;
+        $barang->save();
+        return redirect()->route('barang.index')->with('pesan','Berhasil Mengubah Data Barang');;
     }
 
     /**
@@ -118,6 +155,9 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $barang = Barang::where('kode_barang',$id)->delete();
+  
+        return redirect()->route('barang.index')
+                        ->with('pesan','Data Berhasil Di Hapus');
     }
 }
