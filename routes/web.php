@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\JenisBarangController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,13 +18,21 @@ use App\Http\Controllers\JenisBarangController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::prefix('admin')->group(function () {
-    Route::view('/dashboard','admin.dashboard')->name('dashboard-admin');
-    // Route::view('/barang','admin.barang.index')->name('barang-admin');
-    // Route::view('/barang/tambah','admin.barang.form')->name('addBarang-admin');
-    Route::resource('barang', BarangController::class);
-    Route::resource('jenis-barang', JenisBarangController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::middleware(['role:admin'])->group(function () {
+        Route::prefix('admin')->group(function () {
+            Route::get('/dashboard',[AdminController::class,'dashboard'])->name('dashboard-admin');
+            // Route::view('/barang','admin.barang.index')->name('barang-admin');
+            // Route::view('/barang/tambah','admin.barang.form')->name('addBarang-admin');
+            Route::resource('barang', BarangController::class);
+            Route::resource('jenis-barang', JenisBarangController::class);
+        });
+});
+    Route::middleware(['role:kasir'])->group(function () {
+        Route::prefix('kasir')->group(function () {
+            Route::view('/index','kasir.index');
+        });
+    });
 });
 
 

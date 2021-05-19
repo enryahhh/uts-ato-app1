@@ -17,9 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -40,4 +41,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hasRole($role){
+        if(auth()->user()->role == $role){
+            return true;
+        }
+        return false;
+    }
 }

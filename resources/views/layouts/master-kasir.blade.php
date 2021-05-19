@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="main-wrapper">
+<div class="main-wrapper container">
 @include('layouts.navbar')
-@include('layouts.sidebar')
     <div class="main-content">
         <section class="section">
         <div class="section-header">
@@ -15,7 +14,7 @@
           </div>
 
           <div class="section-body">
-            @yield('content-admin')
+            @yield('content-kasir')
           </div>
         </section>
     </div>
@@ -23,11 +22,6 @@
 @endsection
 @push('script')
     <script>
-       $('body').attr("class",'');
-    if($(".pesan").length>0){
-        setTimeout(() => {
-            $(".pesan").remove();
-        }, 2000);
-    }
+    $('body').attr("class",'layout-3');
     </script>
 @endpush

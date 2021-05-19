@@ -42,7 +42,7 @@
                                 </td>
                                 <td>
                                     <div class="row">
-                                    <a href="{{route('barang.edit',$value->kode_barang)}}" class="btn btn-info btn-icon mr-1"><i class="far fa-edit"></i></a> 
+                                    <a href="{{route('barang.edit',$value->kode_barang)}}" class="btn btn-info btn-icon mr-1"><i class="fas fa-pencil-alt"></i></a> 
                                     <form action="{{route('barang.destroy',$value->kode_barang)}}" method="post">
                                         @csrf
                                         @method('DELETE')
