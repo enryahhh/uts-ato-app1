@@ -24,13 +24,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/dashboard',[AdminController::class,'dashboard'])->name('dashboard-admin');
             // Route::view('/barang','admin.barang.index')->name('barang-admin');
             // Route::view('/barang/tambah','admin.barang.form')->name('addBarang-admin');
-            Route::resource('barang', BarangController::class);
             Route::resource('jenis-barang', JenisBarangController::class);
+            Route::resource('barang', BarangController::class);
         });
-});
+    });
     Route::middleware(['role:kasir'])->group(function () {
         Route::prefix('kasir')->group(function () {
-            Route::view('/index','kasir.index');
+            Route::view('/index','kasir.index')->name('kasir.index');
+            Route::resource('barang', BarangController::class)->only(['show']);
         });
     });
 });

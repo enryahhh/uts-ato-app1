@@ -7,6 +7,17 @@ use App\Models\Barang;
 use App\Models\JenisBarang;
 class BarangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // dd($this->middleware('role'));
+        // $this->middleware('role:kasir')->only('show');
+        // $this->middleware('role:admin');
+        // $this->middleware(function ($request, $next) {
+        //     dd($request->user()->role);
+        //     return $next($request);
+        // });
+    }
     /**
      * Display a listing of the resource.
      *
@@ -99,7 +110,12 @@ class BarangController extends Controller
      */
     public function show($id)
     {
-        //
+        $barang = Barang::find($id);
+        if($barang != null){
+            return response()->json(['code'=>200,'barang'=>$barang]);
+        }else{
+            return response()->json(['code'=>200,'pesan'=>"Kode Barang Tidak Valid"]);
+        }
     }
 
     /**

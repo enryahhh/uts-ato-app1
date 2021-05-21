@@ -24,6 +24,9 @@
                   <li class=""><a class="nav-link" href="{{route('barang.index')}}">Daftar Barang</a></li>
                 </ul>
               </li>
+              <li class="nav-item  @if(Route::currentRouteName() == 'transaksi-admin') active @endif">
+                <a href="{{--route('dashboard-admin')--}}" class="nav-link"><i class="fas fa-shopping-bag"></i><span>Transaksi</span></a>
+              </li>
             </ul>           
         </aside>
       </div>
