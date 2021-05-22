@@ -77,11 +77,11 @@
                   <!-- tabel transaksi -->
                     <table class="table table-bordered" id="table-transaksi">
                       <thead>
-                        <tr>
+                        <tr style="font-size:13px">
                           <th scope="col">No</th>
-                          <th scope="col">Nama Barang</th>
-                          <th scope="col">Harga</th>
-                          <th scope="col">Jumlah</th>
+                          <th>Nama Barang</th>
+                          <th>Harga</th>
+                          <th>Jumlah</th>
                           <th>Total</th>
                           <th>Aksi</th>
                         </tr>
@@ -94,19 +94,61 @@
                       </tbody>
                     </table>
                     <!-- end tabel transaksi -->
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary pembayaran" data-toggle="modal" data-target="#exampleModal">Pembayaran</button>
+                    </div>
+
+                    
               </div>
               <!-- end card body -->
-              <div class="card-footer bg-whitesmoke">
-                This is card footer
-              </div>
+              
             </div>
     </div>
 
 </div>
 
 @endsection
+<div class="modal fade" id="exampleModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <!-- row -->
+            <div class="row form-bayar">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">Total Harga</label>
+                        <input type="number" class="form-control" name="" id="bayar-total-hrg">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Jumlah Uang</label>
+                        <input type="number" class="form-control" name="" id="uang">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Kembalian</label>
+                        <input type="number" class="form-control" readonly name="" id="kembalian">
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary bayar-transaksi">Bayar</button>
+      </div>
+    </div>
+  </div>
+</div>
 @push('script')
     <script>
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        let data = Object.create({});
        $(document).ready(function(){
              // $('.tampil-barang').hide();
         $("#btn-cari").on('click',function(){
@@ -136,9 +178,11 @@
 
         let no = 0;
         let total_bayar = 0;
+        let list_barang = [];
+        let uang = 0;
         $("#total-bayar").hide();
         $("#btn-beli").on('click',function(){
-            let cek = $("#table-transaksi").find(`#kd-${kd_brg.value}`);
+            let cek = $("#table-transaksi").find(`.kd-${kd_brg.value}`);
             $("#total-bayar").show();
             if(cek.length < 1){
                 no+=1;
@@ -147,7 +191,7 @@
                 const val_inp = $(":input").serializeArray();
                 const [,kd_brg,nama_brg,harga,jumlah,total] = val_inp;
                 $("table tbody").last().before(`
-                    <tr id="kd-${kd_brg.value}">
+                    <tr class="kd-${kd_brg.value}">
                         <td>${no}</td>
                         <td>${nama_brg.value}</td>
                         <td>${harga.value}</td>
@@ -160,11 +204,19 @@
                     </tr>
                 `);
                 total_bayar += total.value*1;
+                $(":input").val("");
+                list_barang.push({
+                        kode_barang:kd_brg.value,
+                        harga:harga.value,
+                        qty:jumlah.value,
+                    });
+                
                 console.log(total_bayar);
             }else{
                 console.log('Data sudah ada');
             }
             $("#total-bayar td:nth-child(2)").text(total_bayar);
+            // $("#total-hrg").val(total_bayar);
             // $("table tbody").last().before("<tr><td>"+no+"</td></tr>");
             
 
@@ -176,6 +228,45 @@
             }
         });
 
+        $('.pembayaran').on('click',function(){
+            let total =$("#total-bayar td:nth-child(2)").text();
+            $("#bayar-total-hrg").val(total);
+        });
+
+        $('#uang').on("keyup",function(){
+            uang = $(this).val();
+            let kembalian;
+            let total_hrg = $("#bayar-total-hrg").val();
+            if(uang*1 < total_hrg){
+                kembalian = 0;
+            }else{
+                kembalian = uang - total_hrg;
+            }
+            $("#kembalian").val(kembalian);
+            console.log(uang);
+        });
+
+        $('#exampleModal').on('hidden.bs.modal', function (event) {
+            $('.form-bayar').find(":input").val("");
+        });
+
+        $(".bayar-transaksi").on("click",function(){
+            data._token = _token;
+            data.barang = list_barang;
+            data.total_harga = total_bayar;
+            data.total_bayar =  uang;
+            data.keterangan = "ini keterangan";
+            console.log(data);
+            $.ajax({
+                url:"{{route('transaksi.store')}}",
+                method : "POST",
+                data : data,
+                dataType:"json",
+                success:function(res){
+                    console.log(res);
+                }
+            })
+        });
        });
     </script>
 @endpush

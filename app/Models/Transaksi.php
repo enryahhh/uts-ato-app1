@@ -19,8 +19,5 @@ class Transaksi extends Model
         'total_bayar',
         'keterangan',
     ];
-
-    public function barang(){
-        
-    }
+    public $incrementing = false;
 }

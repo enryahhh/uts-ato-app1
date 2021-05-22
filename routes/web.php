@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\JenisBarangController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TransaksiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('barang', BarangController::class)->only(['show']);
         });
     });
+
+    Route::post('/tambah-transaksi',[TransaksiController::class,'storeTransaksi'])->name('transaksi.store');
 });
 
 

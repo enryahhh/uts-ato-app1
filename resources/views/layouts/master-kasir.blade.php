@@ -15,6 +15,6 @@
 @endsection
 @push('script')
     <script>
-    $('body').attr("class",'layout-3');
+        $('body').attr("class",'layout-3');
     </script>
 @endpush
