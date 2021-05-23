@@ -9,7 +9,12 @@ use Carbon\Carbon;
 class TransaksiController extends Controller
 {
     public function index(){
-
+            $transaksi = Transaksi::all();
+            if(\Auth::user()->role == 'kasir'){
+                return view('kasir.index',['transaksi'=>$transaksi]);
+            }else{
+                return view('admin.transaksi',['transaksi'=>$transaksi]);
+            }
     }
 
     public function storeTransaksi(Request $request){
@@ -51,5 +56,9 @@ class TransaksiController extends Controller
             'qty',
         ]);
         return response()->json(['code'=>200, 'message'=>'Transaksi Berhasil'], 200);
+    }
+
+    public function detailTransaksi(){
+
     }
 }

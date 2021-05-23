@@ -25,13 +25,15 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/dashboard',[AdminController::class,'dashboard'])->name('dashboard-admin');
             // Route::view('/barang','admin.barang.index')->name('barang-admin');
             // Route::view('/barang/tambah','admin.barang.form')->name('addBarang-admin');
+            Route::get('/transaksi',[TransaksiController::class,'index'])->name('admin.transaksi');
             Route::resource('jenis-barang', JenisBarangController::class);
             Route::resource('barang', BarangController::class);
         });
     });
     Route::middleware(['role:kasir'])->group(function () {
         Route::prefix('kasir')->group(function () {
-            Route::view('/index','kasir.index')->name('kasir.index');
+            Route::get('/index',[TransaksiController::class,'index'])->name('kasir.index');
+            Route::view('/transaksi','kasir.form-transaksi')->name('kasir.transaksi');
             Route::resource('barang', BarangController::class)->only(['show']);
         });
     });

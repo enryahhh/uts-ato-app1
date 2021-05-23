@@ -94,7 +94,7 @@
         <div class="container">
           <ul class="navbar-nav">
           <li class="nav-item">
-              <a href="#" class="nav-link"><i class="fas fa-shopping-bag"></i><span>Transaksi</span></a>
+              <a href="{{route('kasir.index')}}" class="nav-link"><i class="fas fa-shopping-bag"></i><span>Transaksi</span></a>
             </li>
           </ul>
         </div>

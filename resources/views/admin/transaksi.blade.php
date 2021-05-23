@@ -1,6 +1,8 @@
-@extends('layouts.master-kasir')
-@section('section-header','Tambah Transaksi')
-@section('content-kasir')
+@extends('layouts.master-admin')
+@section('section-header','Dashboard')
+@section('content-admin')
+
+
 <div class="card">
     <div class="card-header">
         <div class="h3">Daftar Transaksi</div>
@@ -15,6 +17,7 @@
                             <th>Tanggal</th>
                             <th>Total Harga</th>
                             <th>Keterangan</th>
+                            <th>Kasir</th>
                             <th>Aksi</th>
                            </tr> 
                         </thead>
@@ -27,6 +30,7 @@
                                 <td>{{$value->tgl_transaksi}}</td>
                                 <td>Rp {{number_format($value->total_harga,0,'','.')}}/{{$value->satuan}}</td>
                                 <td>{{$value->keterangan}}</td>
+                                <td>{{$value->user_r->nama}}</td>
                                 <td>
                                     <a href="" class="btn btn-info">Detail</a>
                                 </td>
@@ -45,4 +49,3 @@
 @endpush
 
 @endsection
-

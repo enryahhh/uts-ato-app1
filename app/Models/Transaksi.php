@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Barang;
+use App\Models\User;
 class Transaksi extends Model
 {
     use HasFactory;
@@ -20,4 +20,8 @@ class Transaksi extends Model
         'keterangan',
     ];
     public $incrementing = false;
+
+    public function user_r(){
+        return $this->belongsTo(User::class,'id_user');
+    }
 }
