@@ -5,16 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
+use App\Models\Barang;
 use Carbon\Carbon;
 class TransaksiController extends Controller
 {
     public function index(){
-            $transaksi = Transaksi::all();
-            if(\Auth::user()->role == 'kasir'){
+        if(\Auth::user()->role == 'kasir'){
+                $transaksi = Transaksi::where('id_user',\Auth::user()->id)->get();
                 return view('kasir.index',['transaksi'=>$transaksi]);
             }else{
+                $transaksi = Transaksi::all();
                 return view('admin.transaksi',['transaksi'=>$transaksi]);
             }
+    }
+
+    public function addTransaksi(){
+        $barang = Barang::all();
+        return view('kasir.form-transaksi',['barang'=>$barang]);
     }
 
     public function storeTransaksi(Request $request){
@@ -58,7 +65,13 @@ class TransaksiController extends Controller
         return response()->json(['code'=>200, 'message'=>'Transaksi Berhasil'], 200);
     }
 
-    public function detailTransaksi(){
-
+    public function detailTransaksi($id){
+        $detail = new DetailTransaksi;
+        $data = $detail->getDetailTransaksiById($id);
+        $total = 0;
+        foreach($data as $value){
+            $total += $value->harga * $value->qty;
+        }
+        return response()->json(['code'=>200, 'data'=>$data,'total'=>$total], 200);
     }
 }

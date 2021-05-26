@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 class Transaksi extends Model
 {
@@ -20,6 +21,12 @@ class Transaksi extends Model
         'keterangan',
     ];
     public $incrementing = false;
+
+    public function getPendapatan(){
+        $pendapatan = DB::table('tb_transaksi')->sum('total_harga');
+        $jml_trs = DB::table('tb_transaksi')->count();
+        return ['pendapatan'=>$pendapatan,'jml_trs'=>$jml_trs];
+    }
 
     public function user_r(){
         return $this->belongsTo(User::class,'id_user');

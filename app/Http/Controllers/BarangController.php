@@ -41,7 +41,7 @@ class BarangController extends Controller
     public function create()
     {
         $jenis = JenisBarang::all();
-        $kode_barang = Barang::pluck('kode_barang')->last();
+        $kode_barang = Barang::all()->pluck('kode_barang')->last();
         if($kode_barang == null){
             $new_kode = "BRG-001";
         }else{

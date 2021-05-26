@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\JenisBarang;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Barang extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $primaryKey = 'kode_barang';
     protected $table = 'tb_barang';
     protected $fillable = [

@@ -69,6 +69,9 @@
 
     tes();
     
+    function tampilNotif(pesan,status){
+        swal('Pesan', `${pesan}`, `${status}`);
+    }
 
     function insertJenis(){
         // cek+=1;
@@ -83,21 +86,22 @@
             dataType:"json",
             success:function(response){
                 if(response.code == 200) {
-                    $('#jenis').val('');
-                    if($("#cek").length > 0){
-                        $("#cek").remove();
+                        tampilNotif(response.message,'success');
+                        $('#jenis').val('');
+                        if($("#cek").length > 0){
+                            $("#cek").remove();
+                        }
+                        let angka;
+                        if($("table tbody tr").length == 0){
+                            angka = 1;
+                        }else{
+                            let baris_iterasi = $("table tbody tr").last();
+                            let kolom = baris_iterasi.find("td:first");
+                                angka = kolom.data('iteration');
+                                angka+=1;
+                        }
+                        $('table tbody').append('<tr id="row_'+response.data.id_jenis+'"><td data-iteration='+angka+'>'+angka+'</td><td>'+response.data.nama_jenis+'</td><td><a href="javascript:void(0)" data-id="'+response.data.id_jenis+'" class="btn btn-info ubah">Ubah</a> <a href="javascript:void(0)" data-id="'+response.data.id_jenis+'" class="btn btn-danger" onclick="">Hapus</a></td></tr>');
                     }
-                    let angka;
-                    if($("table tbody tr").length == 0){
-                        angka = 1;
-                    }else{
-                        let baris_iterasi = $("table tbody tr").last();
-                        let kolom = baris_iterasi.find("td:first");
-                            angka = kolom.data('iteration');
-                            angka+=1;
-                    }
-                    $('table tbody').append('<tr id="row_'+response.data.id_jenis+'"><td data-iteration='+angka+'>'+angka+'</td><td>'+response.data.nama_jenis+'</td><td><a href="javascript:void(0)" data-id="'+response.data.id_jenis+'" class="btn btn-info ubah">Ubah</a> <a href="javascript:void(0)" data-id="'+response.data.id_jenis+'" class="btn btn-danger" onclick="">Hapus</a></td></tr>');
-              };
                 },
             error:function(err){
                 console.log(err);
@@ -140,10 +144,12 @@
         }).then((response)=>response.json())
         .then(result=>{
            if(result.code == 200){
+               tampilNotif(result.message,'success');
                kesemula(result.data.id_jenis,result.data.nama_jenis);
            }
         })
         .catch((err)=>{
+            tampilNotif(err,'danger')
             console.log(err);
         })
     }
@@ -158,6 +164,7 @@
             }).then((response)=>response.json())
             .then(result=>{
                 if(result.code == 200){
+                    tampilNotif(result.message,'success');
                     $("table tbody").find("#row_"+id).remove();
                 }
             })
@@ -166,6 +173,7 @@
             })  
         }
             
-    })
+    });
+
 </script>
 @endpush

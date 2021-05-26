@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\JenisBarang;
+use App\Models\Barang;
+use App\Models\DetailTransaksi;
 class JenisBarangController extends Controller
 {
     /**
@@ -88,6 +90,13 @@ class JenisBarangController extends Controller
      */
     public function destroy($id)
     {
+        $barang = Barang::where('id_jenis',$id)->get();
+        if(count($barang) != 0){
+            // dd($barang);
+            foreach($barang as $item){
+                $item->delete();
+            }
+        }
         $jenis = JenisBarang::find($id);
         $jenis->delete();
         return response()->json(['code'=>200, 'message'=>'Data Berhasil dihapus'], 200);

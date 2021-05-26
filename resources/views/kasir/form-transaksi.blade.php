@@ -14,10 +14,16 @@
                     <!-- input cari barang -->
                     <div class="form-group">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="kd_brg" id="kd_brg" placeholder="kode barang" aria-label="">
+                            <!-- <input type="text" class="form-control" name="kd_brg" id="kd_brg" placeholder="kode barang" aria-label="">
                             <div class="input-group-append">
-                            <button class="btn btn-primary" id="btn-cari" type="button">Cari</button>
-                            </div>
+                            <button class="btn btn-primary" id="btn-cari" type="button">Cari</button> -->
+                            <select class="cari-barang">
+                            <option></option>
+                                @foreach($barang as $item)
+                                    <option value="{{$item->kode_barang}}">{{$item->nama_barang}}</option>
+                                @endforeach
+                            </select>
+                            <!-- </div> -->
                         </div>
                     </div>
                    <!-- end input cari barang -->
@@ -95,7 +101,7 @@
                     </table>
                     <!-- end tabel transaksi -->
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary pembayaran" data-toggle="modal" data-target="#exampleModal">Pembayaran</button>
+                        <button class="btn btn-primary pembayaran" data-toggle="modal" disabled="" data-target="#exampleModal">Pembayaran</button>
                     </div>
 
                     
@@ -134,6 +140,11 @@
                         <label for="">Kembalian</label>
                         <input type="number" class="form-control" readonly name="" id="kembalian">
                     </div>
+
+                    <div class="form-group">
+                        <label for="">Keterangan</label>
+                        <textarea name="keterangan" id="keterangan" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
                 </div>
             </div>
             <!-- end row -->
@@ -149,27 +160,48 @@
     <script>
         let _token = $('meta[name="csrf-token"]').attr('content');
         let data = Object.create({});
+        let no = 0;
+        function coba(){
+            if($("table tr").length > 2){
+               $("#total-bayar").show();
+               $(".pembayaran").removeAttr('disabled');
+           }else{
+               no = 0;
+               $("#total-bayar").hide();
+               $(".pembayaran").attr('disabled','');
+           }
+        }
        $(document).ready(function(){
-             // $('.tampil-barang').hide();
-        //  Fungsi Cari Barang
-        $("#btn-cari").on('click',function(){
-            // $('.tampil-barang').show();
-            let kode = $("#kd_brg").val();
-            $.ajax({
-                method:'GET',
-                url:`barang/${kode}`,
-                success:function(res){
-                    if(res.barang != null){
-                        const brg = res.barang;
-                        $("#nama-brg").val(brg.nama_barang);
-                        $("#harga-brg").val(brg.harga);
-                        $("#jml-beli").removeAttr("readonly");
-                        $("#satuan").html(brg.satuan);
-                        $("#btn-beli").removeAttr("disabled");
-                    }
+        let total_bayar = 0;
+        let list_barang = [];
+        let uang = 0;
+            coba();
+             $('.cari-barang').select2({
+                placeholder: 'Cari Barang'
+            
+            })
+
+            // Fungsi Cari Barang 
+            $('.cari-barang').change(function(){
+                let kode = $(this).val();
+                console.log(kode);
+                if(kode != ''){
+                        $.ajax({
+                        method:'GET',
+                        url:`barang/${kode}`,
+                        success:function(res){
+                            if(res.barang != null){
+                                const brg = res.barang;
+                                $("#nama-brg").val(brg.nama_barang);
+                                $("#harga-brg").val(brg.harga);
+                                $("#jml-beli").removeAttr("readonly");
+                                $("#satuan").html(brg.satuan);
+                                $("#btn-beli").removeAttr("disabled");
+                            }
+                        }
+                    })
                 }
             })
-        });
 
         // Fungsi hitung total harga
         $("#jml-beli").on('keyup',function(){
@@ -178,43 +210,42 @@
             $("#total-harga").val(total);
         });
 
-        let no = 0;
-        let total_bayar = 0;
-        let list_barang = [];
-        let uang = 0;
-        $("#total-bayar").hide();
+        
+
         // Fungsi Menambah data ke tabel
         $("#btn-beli").on('click',function(){
-            let cek = $("#table-transaksi").find(`.kd-${kd_brg.value}`);
+            let kd_brg = $(".cari-barang").val();
+            let cek = $("#table-transaksi").find(`.kd-${kd_brg}`);
             $("#total-bayar").show();
+            $(".pembayaran").removeAttr('disabled');
             if(cek.length < 1){
                 no+=1;
                 // const nama_brg = $("#nama-brg").val();
                 // const harga = $("#harga-brg").val();
-                const val_inp = $(":input").serializeArray();
-                const [,kd_brg,nama_brg,harga,jumlah,total] = val_inp;
-                $("table tbody").prepend(`
-                    <tr class="kd-${kd_brg.value}">
+                const val_inp = $(".tampil-barang :input").serializeArray();
+                const [nama_brg,harga,jumlah,total] = val_inp;
+                $("table tbody").last().before(`
+                    <tr class="kd-${kd_brg}">
                         <td>${no}</td>
                         <td>${nama_brg.value}</td>
                         <td>${harga.value}</td>
                         <td>${jumlah.value}</td>
                         <td>${total.value}</td>
                         <td>
-                                <a class="btn btn-info btn-icon btn-qty"  data-id="${kd_brg.value}"><i class="fas fa-pencil-alt"></i></a>      
-                                <button class="btn btn-danger btn-icon hapus-pembelian" data-id="${kd_brg.value}"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-danger btn-icon hapus-pembelian" data-id="${kd_brg}"><i class="fas fa-trash"></i></button>
                           </td>
                     </tr>
                 `);
                 total_bayar += total.value*1;
+                $(".cari-barang").val(null).trigger('change');
                 $(":input").val("");
                 list_barang.push({
-                        kode_barang:kd_brg.value,
+                        kode_barang:kd_brg,
                         harga:harga.value,
                         qty:jumlah.value,
                     });
                 
-                console.log(total_bayar);
+                console.log(val_inp);
             }else{
                 console.log('Data sudah ada');
             }
@@ -225,17 +256,6 @@
 
         });
 
-        // $(document).on('click',function(e){
-        //     let className = e.target.classList;
-        //     let kd = '';
-        //     if(className.contains('btn-qty')){
-        //         kd = e.target.dataset.id;
-        //     }else if(className.contains('hapus-pembelian')){
-        //         kd = e.target.dataset.id;
-        //         hapusPembelian(kd);
-        //     }
-        //     console.log(kd);
-        // });
 
         // Fungsi menampilkan modal dan pembayaran
         $('.pembayaran').on('click',function(){
@@ -258,6 +278,7 @@
 
         $('#exampleModal').on('hidden.bs.modal', function (event) {
             $('.form-bayar').find(":input").val("");
+            $("#keterangan").val("");
         });
 
         $(".bayar-transaksi").on("click",function(){
@@ -265,7 +286,7 @@
             data.barang = list_barang;
             data.total_harga = total_bayar;
             data.total_bayar =  uang;
-            data.keterangan = "ini keterangan";
+            data.keterangan = $("#keterangan").val();
             console.log(data);
             $.ajax({
                 url:"{{route('transaksi.store')}}",
@@ -273,20 +294,34 @@
                 data : data,
                 dataType:"json",
                 success:function(res){
-                    console.log(res);
+                    if(res.code == 200){
+                        swal({
+                            title: 'Pesan',
+                            text: `${res.message}`,
+                            icon: 'success',
+                            closeOnClickOutside: false
+                            }).then(()=>location.reload());
+                    }
+                },
+                error:function(err){
+                    console.log(err);
                 }
             })
         });
 
-        $(".hapus-pembelian").on('click',function(){
-            let id = $(this).data('id');
-            console.log(id+"asd");
+        $("table").on('click','.hapus-pembelian',function(){
+            let baris = $(this).closest('tr');
+            let total = baris.find('td:nth-child(5)').text();
+            let baris_totalAll = $("#total-bayar").find('td:nth-child(2)');
+            let total_bayar = baris_totalAll.text()*1 - total*1;
+            baris_totalAll.text(total_bayar);
+            
+           baris.remove();
+           coba();
         });
 
-    //     function hapusPembelian(kode){
-    //         console.log(kode+"asd");
-    //         $("table tbody").find(".kd-"+kode).remove();
-    //     }
        });
+        // backup code
+        //    <a class="btn btn-info btn-icon btn-qty"  data-id="${kd_brg}"><i class="fas fa-pencil-alt"></i></a>      
     </script>
 @endpush

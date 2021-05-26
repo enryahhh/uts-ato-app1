@@ -6,7 +6,7 @@
         <div class="h3">Daftar Transaksi</div>
     </div>
     <div class="card-body">
-        <a href="{{route('kasir.transaksi')}}" class="btn btn-primary mb-4">Transaksi Baru</a>
+        <a href="{{route('kasir.add-transaksi')}}" class="btn btn-primary mb-4">Transaksi Baru</a>
         <table class="table table-striped dataTable no-footer" id="table-transaksi">
                         <thead>
                           <tr role="row">

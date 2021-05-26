@@ -8,7 +8,7 @@
     <div class="card card-statistic-2">
                 <div class="card-stats">
                   <div class="card-stats-title">Statistik Penjualan
-                    <div class="dropdown d-inline">
+                    <!-- <div class="dropdown d-inline">
                       <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#" id="orders-month">Semua</a>
                       <ul class="dropdown-menu dropdown-menu-sm">
                         <li class="dropdown-title">Select Month</li>
@@ -26,7 +26,7 @@
                         <li><a href="#" class="dropdown-item">November</a></li>
                         <li><a href="#" class="dropdown-item">December</a></li>
                       </ul>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="card-icon shadow-primary bg-primary">
@@ -37,7 +37,7 @@
                     <h4>Total Penjualan</h4>
                   </div>
                   <div class="card-body">
-                    59
+                    <span>{{$pendapatan['jml_trs']}}</span>
                   </div>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                 </div>
                 <div class="card-body">
                 
-                    <h6 class="mt-1">Rp 30.000.000</h6>
+                    <h6 class="mt-1">Rp {{number_format($pendapatan['pendapatan'],0,'','.')}}</h6>
                 </div>
             </div>
         </div>

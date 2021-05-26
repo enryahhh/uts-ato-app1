@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class DetailTransaksi extends Model
 {
@@ -16,5 +17,14 @@ class DetailTransaksi extends Model
         'harga',
         'qty',
     ];
+
+    public function getDetailTransaksiById($id){
+        $data = DB::table('tb_detail_transaksi')
+                ->join('tb_transaksi','tb_detail_transaksi.id_transaksi','=','tb_transaksi.id_transaksi')
+                ->join('tb_barang','tb_detail_transaksi.kode_barang','=','tb_barang.kode_barang')
+                ->select('tb_barang.nama_barang','tb_transaksi.total_bayar','tb_detail_transaksi.*')
+                ->where('tb_detail_transaksi.id_transaksi','=',$id)->get();
+                return $data;
+    }
 
 }

@@ -17,8 +17,11 @@ use App\Http\Controllers\TransaksiController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+Auth::routes([
+    'register' => false
+]);
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         Route::prefix('admin')->group(function () {
@@ -33,15 +36,15 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:kasir'])->group(function () {
         Route::prefix('kasir')->group(function () {
             Route::get('/index',[TransaksiController::class,'index'])->name('kasir.index');
-            Route::view('/transaksi','kasir.form-transaksi')->name('kasir.transaksi');
+            Route::get('/transaksi',[TransaksiController::class,'addTransaksi'])->name('kasir.add-transaksi');
             Route::resource('barang', BarangController::class)->only(['show']);
         });
     });
-
+    Route::get('/detail-transaksi/{id_trans}',[TransaksiController::class,'detailTransaksi'])->name('transaksi.detail');
     Route::post('/tambah-transaksi',[TransaksiController::class,'storeTransaksi'])->name('transaksi.store');
 });
 
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

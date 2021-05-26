@@ -34,11 +34,11 @@ class CreateTransaksisTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('tb_transaksi', 'id_user')) {
-            Schema::table('tb_transaksi', function (Blueprint $table) {
-                $table->dropForeign(['id_user']);
-            });
-        }
+        
+        Schema::table('tb_transaksi', function (Blueprint $table) {
+            $table->dropForeign(['id_user']);
+        });
+        
         if (Schema::hasTable('tb_detail_transaksi')) {
             Schema::drop('tb_detail_transaksi');
         }
