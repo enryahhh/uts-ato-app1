@@ -20,6 +20,9 @@ class CreateJenisBarangsTable extends Migration
             $table->string("nama_jenis",30);
             $table->timestamps();
         });
+        Schema::table('tb_jenis_barang', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**

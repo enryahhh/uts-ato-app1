@@ -22,7 +22,6 @@
                             <th>Harga</th>
                             <th>Stok</th>
                             <th>Gambar</th>
-                            <th>Tambah Stok</th>
                             <th>Aksi</th>
                            </tr> 
                         </thead>
@@ -36,9 +35,6 @@
                                 <td>{{$value->stok}}</td>
                                 <td>
                                     <img width="200px" src="{{asset('storage/img/'.$value->foto)}}" alt="tes">
-                                </td>
-                                <td class="text-center">
-                                    <a href="" class="btn btn-icon btn-dark"><i class="far fa-plus-square"></i></a>
                                 </td>
                                 <td>
                                     <div class="row">

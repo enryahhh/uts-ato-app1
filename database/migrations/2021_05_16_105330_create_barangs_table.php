@@ -17,7 +17,6 @@ class CreateBarangsTable extends Migration
     {
         Schema::create('tb_barang', function (Blueprint $table) {
             $table->char('kode_barang',7)->primary();
-            // $table->unsignedInteger('id_jenis');
             $table->string('nama_barang',40);
             $table->string('satuan',15);
             $table->string('foto');
@@ -28,6 +27,10 @@ class CreateBarangsTable extends Migration
 
         Schema::table('tb_barang', function (Blueprint $table) {
             $table->foreignId('id_jenis')->after("stok")->constrained('tb_jenis_barang','id_jenis');
+        });
+
+        Schema::table('tb_barang', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 

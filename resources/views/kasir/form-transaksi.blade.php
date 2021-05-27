@@ -14,9 +14,6 @@
                     <!-- input cari barang -->
                     <div class="form-group">
                         <div class="input-group mb-3">
-                            <!-- <input type="text" class="form-control" name="kd_brg" id="kd_brg" placeholder="kode barang" aria-label="">
-                            <div class="input-group-append">
-                            <button class="btn btn-primary" id="btn-cari" type="button">Cari</button> -->
                             <select class="cari-barang">
                             <option></option>
                                 @foreach($barang as $item)
@@ -161,6 +158,7 @@
         let _token = $('meta[name="csrf-token"]').attr('content');
         let data = Object.create({});
         let no = 0;
+        let total_bayar = 0;
         function coba(){
             if($("table tr").length > 2){
                $("#total-bayar").show();
@@ -169,10 +167,11 @@
                no = 0;
                $("#total-bayar").hide();
                $(".pembayaran").attr('disabled','');
+               $("#total-bayar td:nth-child(2)").text("0");
            }
         }
        $(document).ready(function(){
-        let total_bayar = 0;
+       
         let list_barang = [];
         let uang = 0;
             coba();
@@ -311,11 +310,15 @@
 
         $("table").on('click','.hapus-pembelian',function(){
             let baris = $(this).closest('tr');
+            let id = $(this).attr('data-id');
             let total = baris.find('td:nth-child(5)').text();
             let baris_totalAll = $("#total-bayar").find('td:nth-child(2)');
-            let total_bayar = baris_totalAll.text()*1 - total*1;
-            baris_totalAll.text(total_bayar);
-            
+            total_bayar = baris_totalAll.text()*1 - total*1;
+            for(let i=0;i<list_barang.length;i++){
+                if(list_barang[i].kode_barang == id){
+                    list_barang.splice(i,1);
+                }
+            }           
            baris.remove();
            coba();
         });

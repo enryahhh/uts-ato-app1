@@ -105,7 +105,7 @@
 <div class="card">
     <div class="card-body">
         <h2 class="text-center">
-            INI DASHBOARD
+            10119294-Lingga Juliansyah-IF7
         </h2>
     </div>
 </div>

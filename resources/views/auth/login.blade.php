@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                     @csrf
                   <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                @error('email')
+                    <label for="username">Username</label>
+                    <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                                @error('username')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>

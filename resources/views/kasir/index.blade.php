@@ -28,7 +28,7 @@
                                 <td>Rp {{number_format($value->total_harga,0,'','.')}}/{{$value->satuan}}</td>
                                 <td>{{$value->keterangan}}</td>
                                 <td>
-                                    <a href="" class="btn btn-info">Detail</a>
+                                    <button onclick="detailModal('{{$value->id_transaksi}}')" class="btn btn-info">Detail</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -36,13 +36,7 @@
                       </table>
     </div>
 </div>
-@push('script')
-    <script>
-        $(document).ready( function () {
-            $('#table-transaksi').DataTable();
-        } );
-    </script>
-@endpush
 
 @endsection
+@include('utilities.modal-detail')
 
