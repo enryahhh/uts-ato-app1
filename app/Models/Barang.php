@@ -28,13 +28,14 @@ class Barang extends Model
         return $this->belongsTo(JenisBarang::class,'id_jenis','id_jenis');
     }
 
-    public function transaksi(){
-        return $this->belongsToMany(Transaksi::class);
-    }
 
     public function getJumlahAndStok(){
         $jml_barang = DB::table('tb_barang')->count();
         $jml_stok = DB::table('tb_barang')->sum('stok');
         return ['jml_barang'=>$jml_barang,'jml_stok'=>$jml_stok];
+    }
+
+    public function kurangiStok($kode,$jumlah){
+        $stok = DB::table('tb_barang')->where('kode_barang',$kode)->decrement('stok',$jumlah);
     }
 }

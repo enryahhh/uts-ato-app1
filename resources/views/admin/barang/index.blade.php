@@ -34,7 +34,7 @@
                                 <td>Rp {{number_format($value->harga,0,'','.')}}/{{$value->satuan}}</td>
                                 <td>{{$value->stok}}</td>
                                 <td>
-                                    <img width="200px" src="{{asset('storage/img/'.$value->foto)}}" alt="tes">
+                                    <img width="200px" src="{{asset('img/'.$value->foto)}}" alt="tes">
                                 </td>
                                 <td>
                                     <div class="row">

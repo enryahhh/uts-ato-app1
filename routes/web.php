@@ -15,10 +15,7 @@ use App\Http\Controllers\TransaksiController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::redirect('/', '/login')->middleware('guest');
 Auth::routes([
     'register' => false
 ]);

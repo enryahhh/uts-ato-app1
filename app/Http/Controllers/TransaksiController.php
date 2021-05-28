@@ -48,7 +48,6 @@ class TransaksiController extends Controller
             "id_user"=>\Auth::user()->id,
             "tgl_transaksi"=>Carbon::now()->format('Y-m-d'),
             "total_harga"=>$request->total_harga,
-            "total_bayar"=>$request->total_bayar,
             "keterangan"=>$request->keterangan
         ]);
         $detail = $request->barang;
@@ -62,6 +61,10 @@ class TransaksiController extends Controller
             'harga',
             'qty',
         ]);
+        for($j=0;$j<count($detail);$j++){
+            $barang = new Barang;
+            $barang->kurangiStok($detail[$j]["kode_barang"],$detail[$j]["qty"]);
+        }
         return response()->json(['code'=>200, 'message'=>'Transaksi Berhasil'], 200);
     }
 

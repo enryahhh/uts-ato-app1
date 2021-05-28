@@ -272,7 +272,6 @@
                 kembalian = uang - total_hrg;
             }
             $("#kembalian").val(kembalian);
-            console.log(uang);
         });
 
         $('#exampleModal').on('hidden.bs.modal', function (event) {
@@ -284,7 +283,6 @@
             data._token = _token;
             data.barang = list_barang;
             data.total_harga = total_bayar;
-            data.total_bayar =  uang;
             data.keterangan = $("#keterangan").val();
             console.log(data);
             $.ajax({

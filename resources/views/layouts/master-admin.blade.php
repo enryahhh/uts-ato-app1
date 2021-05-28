@@ -20,7 +20,9 @@
         </section>
     </div>
 </div>
+@include('utilities.footer')
 @endsection
+
 @push('script')
     <script>
        $('body').attr("class",'');

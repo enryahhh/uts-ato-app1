@@ -61,7 +61,7 @@ class BarangController extends Controller
         $file = $filenya;
         $nama_file = time()."_".$file->getClientOriginalName();
       
-		$file->storeAs("public/img",$nama_file);
+		$file->move("img",$nama_file);
         return $nama_file;
     }
 

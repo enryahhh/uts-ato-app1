@@ -20,7 +20,7 @@
                     <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
                                 @error('username')
                                 <div class="invalid-feedback">
-                                    {{$message}}
+                                    <p>Username Atau Password Salah</p>
                                 </div>
                                 @enderror
                     
@@ -30,9 +30,9 @@
                     <div class="d-block">
                     	<label for="password" class="control-label">Password</label>
                       <div class="float-right">
-                        <a href="auth-forgot-password.html" class="text-small">
+                        <!-- <a href="auth-forgot-password.html" class="text-small">
                           Forgot Password?
-                        </a>
+                        </a> -->
                       </div>
                     </div>
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
@@ -62,7 +62,7 @@
               </div>
             </div>
             <div class="simple-footer">
-              Copyright &copy; 10119294-Lingga Juliansyah 2021
+              Copyright &copy; 10119294-Lingga Juliansyah 2021 IF-7
             </div>
           </div>
         </div>

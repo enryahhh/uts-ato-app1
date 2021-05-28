@@ -11,7 +11,9 @@
           </div>
         </section>
     </div>
+    @include('utilities.footer')
 </div>
+
 @endsection
 @push('script')
     <script>
