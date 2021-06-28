@@ -1,6 +1,6 @@
-@extends('layouts.master-kasir')
+@extends('layouts.master-admin')
 @section('section-header','Tambah Transaksi')
-@section('content-kasir')
+@section('content-admin')
 
 <h2 class="section-title">Transaksi</h2>
 <div class="row">
@@ -187,7 +187,7 @@
                 if(kode != ''){
                         $.ajax({
                         method:'GET',
-                        url:`barang/${kode}`,
+                        url:`/admin/barang/${kode}`,
                         success:function(res){
                             if(res.barang != null){
                                 const brg = res.barang;

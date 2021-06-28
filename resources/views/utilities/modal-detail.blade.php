@@ -25,7 +25,7 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
 
     </div>
@@ -37,11 +37,14 @@
             $('#table-transaksi').DataTable();
             
         } );
+        function currency(number){
+          return new Intl.NumberFormat('id').format(number);
+        }
             function detailModal(id){
                 let isi = '';
                 $.ajax({
                     method:"GET",
-                    url:"/detail-transaksi/"+id,
+                    url:"/admin/detail-transaksi/"+id,
                     success:function(res){
                         console.log(res.data[0].kode_barang);
                         let data = res.data;
@@ -53,13 +56,13 @@
                                         <td>${data[i].kode_barang}</td>
                                         <td>${data[i].nama_barang}</td>
                                         <td>${data[i].qty}</td>
-                                        <td>${data[i].harga}</td>
-                                        <td>${data[i].harga * data[i].qty}</td>
+                                        <td>Rp ${currency(data[i].harga)}</td>
+                                        <td>Rp ${currency(data[i].harga * data[i].qty)}</td>
                                       </tr>;`
                             }
                             isi+=`<tr>
                                     <td colspan="5">Total Keseluruhan</td>
-                                    <td>${res.total}</td>
+                                    <td>Rp ${currency(res.total)}</td>
                                 </tr>`
                             $("#myModal").modal('show');
                             $("#myModal table tbody").html(isi);

@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\JenisBarang;
-use App\Models\Transaksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Barang extends Model
@@ -19,14 +17,9 @@ class Barang extends Model
         'satuan',
         'foto',
         'harga',
-        'stok',
-        'id_jenis'
+        'stok'
     ];
     public $incrementing = false;
-
-    public function jenis_barang(){
-        return $this->belongsTo(JenisBarang::class,'id_jenis','id_jenis');
-    }
 
 
     public function getJumlahAndStok(){

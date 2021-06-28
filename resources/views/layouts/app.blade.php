@@ -46,6 +46,9 @@
     <script src="{{asset('js/scripts.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('js/sweetalert.min.js')}}"></script>
+    <script src="{{asset('jsjquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('js/select.bootstrap4.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @stack('script')
 </body>

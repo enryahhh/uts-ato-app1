@@ -17,7 +17,6 @@ class CreateTransaksisTable extends Migration
             $table->char('id_transaksi',12)->primary();
             $table->date('tgl_transaksi');
             $table->double('total_harga');
-            $table->double('total_bayar');
             $table->text('keterangan');
             $table->timestamps();
         });

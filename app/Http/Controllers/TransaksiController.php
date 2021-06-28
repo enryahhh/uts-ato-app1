@@ -10,18 +10,13 @@ use Carbon\Carbon;
 class TransaksiController extends Controller
 {
     public function index(){
-        if(\Auth::user()->role == 'kasir'){
-                $transaksi = Transaksi::where('id_user',\Auth::user()->id)->get();
-                return view('kasir.index',['transaksi'=>$transaksi]);
-            }else{
                 $transaksi = Transaksi::all();
-                return view('admin.transaksi',['transaksi'=>$transaksi]);
-            }
+                return view('admin.transaksi.index',['transaksi'=>$transaksi]);
     }
 
     public function addTransaksi(){
         $barang = Barang::all();
-        return view('kasir.form-transaksi',['barang'=>$barang]);
+        return view('admin.transaksi.form-transaksi',['barang'=>$barang]);
     }
 
     public function storeTransaksi(Request $request){

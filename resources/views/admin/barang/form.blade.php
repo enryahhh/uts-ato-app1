@@ -18,14 +18,7 @@
                             <label>Kode Barang</label>
                             <input type="text" name="kode" readonly="" class="form-control" value="{{$kode}}" >
                         </div>
-                        <div class="form-group">
-                            <label for="">Jenis Barang</label>
-                            <select name="id_jenis" id="" class="form-control">
-                                @foreach($jenis as $data)
-                                    <option value="{{$data['id_jenis']}}">{{$data['nama_jenis']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                       
                         <div class="form-group">
                             <label>Nama Barang</label>
                             <input type="text" name="nama" class="form-control" id="formGroupExampleInput" >

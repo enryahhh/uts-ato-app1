@@ -15,13 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::factory()->create();
         \App\Models\User::factory()
-                ->count(2)
+                ->count(1)
                 ->unverified()
                 ->state(new Sequence(
-                    ['role' => 'admin','username'=>'admin','password'=>Hash::make('admin')],
-                    ['role' => 'kasir','username'=>'kasir','password'=>Hash::make('kasir')],
+                    ['username'=>'admin','password'=>Hash::make('admin')],
                 ))
                 ->create();
     }

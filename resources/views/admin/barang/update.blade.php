@@ -21,14 +21,7 @@
                                 <h6 class="text-danger">{{ $message }}</h6>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="">Jenis Barang</label>
-                            <select name="id_jenis" id="" class="form-control">
-                                @foreach($jenis as $value)
-                                    <option value="{{$value['id_jenis']}}" @if($value['id_jenis'] == $data->id_jenis) "selected" @endif>{{$value['nama_jenis']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                       
                          <div class="form-group">
                             <label>Satuan</label>
                             <input type="text" name="satuan" value="{{$data->satuan}}" id="satuan" class="form-control" id="inlineFormInputGroup">
@@ -50,7 +43,7 @@
                             <label>Priview Foto</label>
                             <br>
                             <!-- <input type="number" class="form-control" id="formGroupExampleInput2" min="1"> -->
-                            <img  src="{{asset('storage/img/'.$data->foto)}}" class="img-thumbnail" alt="..." width="300">
+                            <img  src="{{asset('img/'.$data->foto)}}" class="img-thumbnail" alt="..." width="300">
                         </div>
                         <div class="form-group">
                             <label>Foto Baru</label>

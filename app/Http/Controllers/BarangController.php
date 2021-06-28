@@ -4,19 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
-use App\Models\JenisBarang;
 class BarangController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        // dd($this->middleware('role'));
-        // $this->middleware('role:kasir')->only('show');
-        // $this->middleware('role:admin');
-        // $this->middleware(function ($request, $next) {
-        //     dd($request->user()->role);
-        //     return $next($request);
-        // });
+        
     }
     /**
      * Display a listing of the resource.
@@ -26,10 +19,6 @@ class BarangController extends Controller
     public function index()
     {
         $barang = Barang::all();
-        // dd($jenis[1]->jenis_barang->nama_jenis);
-        // foreach($jenis as $data){
-        //     $data
-        // }
         return view('admin.barang.index',['barang'=>$barang]);
     }
 
@@ -40,8 +29,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $jenis = JenisBarang::all();
-        $kode_barang = Barang::all()->pluck('kode_barang')->last();
+        $kode_barang = Barang::withTrashed()->pluck('kode_barang')->last();
         if($kode_barang == null){
             $new_kode = "BRG-001";
         }else{
@@ -54,7 +42,7 @@ class BarangController extends Controller
             }
         }
 
-        return view('admin.barang.form',['kode'=>$new_kode,'jenis'=>$jenis]);
+        return view('admin.barang.form',['kode'=>$new_kode]);
     }
 
     public function uploadImage($filenya){
@@ -127,8 +115,7 @@ class BarangController extends Controller
     public function edit($id)
     {
         $barang = Barang::find($id);
-        $jenis = JenisBarang::all();
-        return view('admin.barang.update',['data'=>$barang,'jenis'=>$jenis]);
+        return view('admin.barang.update',['data'=>$barang]);
     }
 
     /**
@@ -158,7 +145,6 @@ class BarangController extends Controller
         $barang->satuan = $request->satuan;
         $barang->foto = $nama_file;
         $barang->stok=$request->stok;
-        $barang->id_jenis = $request->id_jenis;
         $barang->save();
         return redirect()->route('barang.index')->with('pesan','Berhasil Mengubah Data Barang');;
     }
