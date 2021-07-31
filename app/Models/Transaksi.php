@@ -16,8 +16,11 @@ class Transaksi extends Model
         'id_transaksi',
         'id_user',
         'tgl_transaksi',
+        'kurir',
+        'ongkir',
         'total_harga',
         'keterangan',
+        'destination_detail'
     ];
     public $incrementing = false;
 

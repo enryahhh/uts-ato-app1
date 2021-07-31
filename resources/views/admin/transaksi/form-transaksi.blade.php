@@ -46,9 +46,7 @@
                             <label for="">Jumlah</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" name="jumlah" readonly placeholder="" id="jml-beli">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2">per-<span id="satuan"></span></span>
-                                </div>
+                                
                             </div>
                         </div>
 
@@ -96,9 +94,15 @@
                         </tr>
                       </tbody>
                     </table>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="pengiriman" value="kirim" name="kirim">
+                        <label class="form-check-label" for="inlineCheckbox1">Pengiriman</label>
+                    </div>
                     <!-- end tabel transaksi -->
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-primary pembayaran" data-toggle="modal" disabled="" data-target="#exampleModal">Pembayaran</button>
+                        <button class="btn btn-primary checkout">Checkout</button>
                     </div>
 
                     
@@ -170,11 +174,25 @@
                $("#total-bayar td:nth-child(2)").text("0");
            }
         }
+
+            
+
        $(document).ready(function(){
-       
+        $(".checkout").hide();
         let list_barang = [];
         let uang = 0;
             coba();
+
+            $("#pengiriman").click(function(){
+                if ($('#pengiriman').is(":checked"))
+                {
+                    $(".checkout").show();
+                    $(".pembayaran").hide();
+                }else{
+                    $(".checkout").hide();
+                    $(".pembayaran").show();
+                }
+            })
              $('.cari-barang').select2({
                 placeholder: 'Cari Barang'
             
@@ -194,7 +212,6 @@
                                 $("#nama-brg").val(brg.nama_barang);
                                 $("#harga-brg").val(brg.harga);
                                 $("#jml-beli").removeAttr("readonly");
-                                $("#satuan").html(brg.satuan);
                                 $("#btn-beli").removeAttr("disabled");
                             }
                         }
@@ -321,7 +338,26 @@
            coba();
         });
 
+        $(".checkout").click(function(){
+            $.ajax({
+                url:`{{ route('admin.checkout') }}`,
+                method:'POST',
+                data:{
+                    _token,
+                    cart:{
+                        list_barang,
+                        total_bayar
+                    }
+                },
+                success:function(res){
+                    if(res.code == 200){
+                        window.location.href = '/admin/checkout-view';
+                    }
+                }
+            })
+        })
        });
+
         // backup code
         //    <a class="btn btn-info btn-icon btn-qty"  data-id="${kd_brg}"><i class="fas fa-pencil-alt"></i></a>      
     </script>

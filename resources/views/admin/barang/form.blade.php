@@ -27,11 +27,10 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Satuan</label>
-                            <input type="text" name="satuan" id="satuan" class="form-control" id="inlineFormInputGroup">
+                            <label>Berat</label>
+                            <input type="number" name="berat" id="berat" class="form-control" id="inlineFormInputGroup">
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-9">
+                            <div class="form-group">
                                 <label>Harga</label>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -40,16 +39,6 @@
                                     <input type="number" name="harga" class="form-control" id="inlineFormInputGroup">
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="">/ satuan</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">per</div>
-                                    </div>
-                                    <input type="text" disabled class="form-control" id="view-satuan">
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label>Stok</label>
                             <input type="number" name="stok" class="form-control" id="inlineFormInputGroup" min="1">
@@ -71,8 +60,5 @@
 @endsection
 @push('script')
 <script>
-    $("#satuan").keyup(function(event){
-        $("#view-satuan").val($(this).val());
-    })
 </script>
 @endpush

@@ -81,7 +81,6 @@ class BarangController extends Controller
             "kode_barang" => $request->kode,
             "nama_barang" => $request->nama,
             "harga" =>  $request->harga,
-            "satuan"=> $request->satuan,
             "foto"=>$nama_file,
             "stok"=>$request->stok,
             "id_jenis"=>$request->id_jenis
@@ -142,7 +141,6 @@ class BarangController extends Controller
         $barang->kode_barang = $request->kode;
         $barang->nama_barang = $request->nama;
         $barang->harga =  $request->harga;
-        $barang->satuan = $request->satuan;
         $barang->foto = $nama_file;
         $barang->stok=$request->stok;
         $barang->save();
